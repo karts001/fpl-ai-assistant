@@ -1,23 +1,28 @@
+from typing import List
 from fastapi import APIRouter, Depends
 
 from app.services.fpl_service import FPLService, get_fpl_service
+from backend.app.models.dtos.player_dto import PlayerDTO
+from backend.app.models.mappers.player_mapper import map_raw_player_to_dto
 
 router = APIRouter(
     prefix='/players',
 )
 
 @router.get('/')
-async def get_players(fpl_service: FPLService = Depends(get_fpl_service)) -> list:
-  """ Retrieve all players from fpl endpoint
+async def get_players(fpl_service: FPLService = Depends(get_fpl_service)) -> List[PlayerDTO]:
+  """ Retrieve all players from fpl endpoint and convert to player dto for frontemnd
 
   Args:
       fpl_service (FPLService, optional): FPL service class containing all required methods
 
   Returns:
-      list: Return a list of all players
+      list: Return a list of all players as PlayerDTO objects
   """
 
-  players = await fpl_service.fetch_all_players()
+  raw_players = await fpl_service.fetch_all_players()
+
+  players = [map_raw_player_to_dto(p) for p in raw_players]
   return players
 
 @router.get('/{player_id}')

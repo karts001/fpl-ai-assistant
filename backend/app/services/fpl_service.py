@@ -3,12 +3,14 @@ from typing import List
 
 import httpx
 
+from backend.app.models.raw.raw_player import RawPlayer
+
 
 class FPLService:
   def __init__(self):
     self.api_base_url = os.getenv('FPL_API_BASE_URL')
 
-  async def fetch_all_players(self) -> List[dict]:
+  async def fetch_all_players(self) -> List[RawPlayer]:
 
     if not self.api_base_url:
         raise ValueError('FPL_API_BASE_URL environment variable is not set')
