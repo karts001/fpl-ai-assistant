@@ -3,7 +3,7 @@ from typing import Optional, List
 from datetime import date
 
 class RawPlayer(BaseModel):
-    # Exact structure from FPL api bootstrap-static endpoint 'elements' array
+    """Exact structure from FPL api bootstrap-static endpoint 'elements' array"""
     can_transact: bool
     can_select: bool
     chance_of_playing_next_round: Optional[int]

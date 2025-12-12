@@ -1,36 +1,7 @@
 from backend.app.models.dtos.player_dto import PlayerDTO
 from backend.app.models.raw.raw_player import RawPlayer
+from backend.app.utils.maps import POSITION_MAP, TEAM_MAP
 
-
-POSITION_MAP = {
-  1: "Goalkeeper",
-  2: "Defender",
-  3: "Midfielder",
-  4: "Forward"
-}
-
-TEAM_MAP = {
-  1: "Arsenal",
-  2: "Aston Villa",
-  3: "Burnley",
-  4: "Bournemouth",
-  5: "Brentford",
-  6: "Brighton",
-  7: "Chelsea",
-  8: "Crystal Palace",
-  9: "Everton",
-  10: "Fulham",
-  11: "Leeds",
-  12: "Liverpool",
-  13: "Man City",
-  14: "Man Utd",
-  15: "Newcastle",
-  16: "Nott'm Forest",
-  17: "Sunderland",
-  18: "Spurs",
-  19: "West Ham",
-  20: "Wolves"
-}
 
 def map_raw_player_to_dto(raw: RawPlayer, team_map: dict = None):
   
