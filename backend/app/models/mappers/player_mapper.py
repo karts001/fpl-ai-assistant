@@ -1,12 +1,12 @@
 from backend.app.models.dtos.player_dto import PlayerDTO
 from backend.app.models.raw.raw_player import RawPlayer
-from backend.app.utils.maps import POSITION_MAP, TEAM_MAP
+from backend.app.utils.maps import POSITION_MAP, TEAM_MAP_25_26
 
 
-def map_raw_player_to_dto(raw: RawPlayer, team_map: dict = None):
+def map_raw_player_to_dto(raw: RawPlayer, team_map: dict) -> PlayerDTO:
   
   if team_map is None:
-    team_map = TEAM_MAP
+    team_map = TEAM_MAP_25_26
 
   price = raw.now_cost / 10.0
   points = raw.total_points

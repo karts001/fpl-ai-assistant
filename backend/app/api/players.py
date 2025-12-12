@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends
 
-from app.services.fpl_service import FPLService, get_fpl_service
+from backend.app.services.fpl_player_service import FPLService, get_fpl_service
 from backend.app.models.dtos.player_dto import PlayerDTO
 from backend.app.models.mappers.player_mapper import map_raw_player_to_dto
 

@@ -5,7 +5,7 @@ POSITION_MAP = {
   4: "Forward"
 }
 
-TEAM_MAP = {
+TEAM_MAP_25_26 = {
   1: "Arsenal",
   2: "Aston Villa",
   3: "Burnley",

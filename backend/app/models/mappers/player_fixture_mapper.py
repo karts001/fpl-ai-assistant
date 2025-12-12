@@ -2,9 +2,7 @@ from backend.app.models.dtos.player_fixture_dto import PlayerFixtureDTO
 from backend.app.models.raw.raw_player_fixture import RawPlayerFixture
 
 
-def map_raw_player_fixture_to_dto(raw: RawPlayerFixture, team_map: dict = None):
-  if team_map is None:
-    team_map = TEAM_MAP
+def map_raw_player_fixture_to_dto(raw: RawPlayerFixture, team_map: dict) -> PlayerFixtureDTO:
 
   return PlayerFixtureDTO(
     gameweek=raw.event,
