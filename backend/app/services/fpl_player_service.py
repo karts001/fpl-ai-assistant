@@ -22,7 +22,7 @@ class FPLService:
 
   async def _get_player_summary(self, player_id: int, force_refresh: bool = False) -> RawPlayerSummary:
 
-    now = datetime.now()
+    now = datetime.datetime.now()
 
     if force_refresh and player_id in self._player_summary_cache:
       cached_data, cached_time = self._player_summary_cache[player_id]
@@ -42,7 +42,7 @@ class FPLService:
       player_id=player_id,
       upcoming_fixtures=[map_raw_player_fixture_to_dto(f, TEAM_MAP_25_26) for f in response.get('fixtures', [])],
       recent_gameweeks=[map_raw_player_gameweek_stats_to_dto(gw, TEAM_MAP_25_26) for gw in response.get('history', [])],
-      season_history=[map_raw_player_season_history_to_dto(sh) for sh in response.get('history_past', [])]  # To be implemented
+      season_history=[map_raw_player_season_history_to_dto(sh) for sh in response.get('history_past', [])]
     )
 
   async def get_multiple_players_for_analysis(self, player_ids: List[int]) -> List[PlayerAnalysisDTO]:
@@ -57,5 +57,6 @@ class FPLService:
 
 
 def get_fpl_service() -> FPLService:
-    return FPLService()
+    api_client = FPLApiClient()
+    return FPLService(api_client)
     

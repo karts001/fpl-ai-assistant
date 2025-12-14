@@ -43,9 +43,9 @@ class RawPlayer(BaseModel):
     value_form: float
     value_season: float
     web_name: str
-    region: int
-    team_join_date: date
-    birth_date: date
+    region: Optional[int] = None
+    team_join_date: Optional[date] = None
+    birth_date: Optional[date] = None
     has_temporary_code: bool
     opta_code: str
     minutes: int
