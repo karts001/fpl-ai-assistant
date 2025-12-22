@@ -8,6 +8,7 @@ from backend.app.models.dtos.player_season_history_dto import PlayerSeasonHistor
 
 class PlayerAnalysisDTO(BaseModel):
   player_id: int
+  team_name: str
   upcoming_fixtures: List[PlayerFixtureDTO]
   recent_gameweeks: List[PlayerGameweekStatsDTO]
   season_history: List[PlayerSeasonHistoryDTO]

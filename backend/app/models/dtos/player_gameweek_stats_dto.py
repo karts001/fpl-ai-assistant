@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from pydantic import BaseModel
 
 
@@ -49,6 +49,6 @@ class PlayerGameweekStatsDTO(BaseModel):
   expected_goals_conceded: float
 
   # Match details
-  kickoff_time: datetime
+  kickoff_time: datetime.datetime
   was_home: bool
   opponent_team: str
