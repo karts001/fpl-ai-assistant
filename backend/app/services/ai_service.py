@@ -1,8 +1,6 @@
-import os
 from typing import List, Optional
 
 from dotenv import load_dotenv
-from google import genai
 
 from backend.app.factories.llm_factory import get_llm
 from backend.app.llm.base_llm import BaseLLM
@@ -14,7 +12,6 @@ load_dotenv()
 
 class AIService:
   def __init__(self, llm: BaseLLM):
-    
     self.llm = llm
 
   def format_player_for_prompt(self, player: PlayerDTO) ->str:
