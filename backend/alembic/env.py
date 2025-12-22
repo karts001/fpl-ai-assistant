@@ -7,8 +7,8 @@ from alembic import context
 from dotenv import load_dotenv
 
 from backend.app.db.base import Base
-from backend.app.db.models.player_feature_snapshot import PlayerFeatureSnapshot
-from backend.app.db.models.team_feature_snapshot import TeamFeatureSnapshot
+from backend.app.db.models.player_feature_snapshot_sql import PlayerFeatureSnapshotSQL
+from backend.app.db.models.team_feature_snapshot_sql import TeamFeatureSnapshotSQL
 
 load_dotenv()
 
