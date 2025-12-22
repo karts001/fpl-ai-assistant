@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from backend.app.models.requests.transfer_suggestion import TransferSuggestionRequest
 from backend.app.services.ai_service import AIService, get_ai_service
-from backend.app.services.fpl_player_service import FPLService, get_fpl_service
+from backend.app.services.fpl_service import FPLService, get_fpl_service
 
 
 router = APIRouter()
