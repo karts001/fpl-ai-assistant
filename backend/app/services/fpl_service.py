@@ -2,11 +2,11 @@ import asyncio
 import datetime
 from typing import Dict, List, Tuple
 
-from backend.app.core.fpl_api_client import FPLApiClient
 from backend.app.models.dtos.player_analysis_dto import PlayerAnalysisDTO
 from backend.app.models.dtos.player_dto import PlayerDTO
 from backend.app.models.mappers.player_fixture_mapper import map_raw_player_fixture_to_dto
 from backend.app.models.mappers.player_gameweek_mapper import map_raw_player_gameweek_stats_to_dto
+from backend.app.core.fpl_api_client import FPLApiClient
 from backend.app.models.mappers.player_mapper import map_raw_player_to_dto
 from backend.app.models.mappers.player_season_history_mapper import map_raw_player_season_history_to_dto
 from backend.app.models.raw.raw_player import RawPlayer
@@ -36,10 +36,15 @@ class FPLService:
     return response
 
   async def get_player_for_analysis(self, player_id: int) -> PlayerAnalysisDTO:
+    # Get the team which each player plays for
+    player = await self.get_all_players()  # or fetch single player by id
+    player_team = next(p.team_name for p in player if p.id == player_id)
+
     response = await self.api_client._get(f'/element-summary/{player_id}/')
 
     return PlayerAnalysisDTO(
       player_id=player_id,
+      team_name=player_team,
       upcoming_fixtures=[map_raw_player_fixture_to_dto(f, TEAM_MAP_25_26) for f in response.get('fixtures', [])],
       recent_gameweeks=[map_raw_player_gameweek_stats_to_dto(gw, TEAM_MAP_25_26) for gw in response.get('history', [])],
       season_history=[map_raw_player_season_history_to_dto(sh) for sh in response.get('history_past', [])]
@@ -54,6 +59,16 @@ class FPLService:
      response = await self.api_client._get('/bootstrap-static/')
 
      return [map_raw_player_to_dto(RawPlayer(**p), TEAM_MAP_25_26) for p in response.get('elements', [])]
+  
+  async def get_current_gameweek(self) -> int:
+    response = await self.api_client._get('bootstrap-static/')
+
+    events = response.get('events', [])
+    for event in events:
+      if event.get('is_next'):
+        return event['id']
+    
+    raise ValueError('Could not determine current gameweek from FPL API')
 
 
 def get_fpl_service() -> FPLService:
