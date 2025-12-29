@@ -17,9 +17,9 @@ class BaseRepository:
     session: AsyncSession = self.db_config.AsyncSessionLocal()
     try:
       yield session
-      session.commit()
+      await session.commit()
     except SQLAlchemyError as e:
-      session.rollback()
+      await session.rollback()
       raise e
     finally:
-      session.close()
+      await session.close()

@@ -23,17 +23,21 @@ class PlayerFeatureRepository(BaseRepository):
       ]
 
       session.add_all(db_snapshots)
+      await session.commit()
       return len(db_snapshots)
     
   async def get_by_gameweek(self, gameweek: int) -> List[PlayerFeatureSnapshotSQL]:
-    async with self.get_session() as session:
-      stmt = select(PlayerFeatureSnapshotSQL).where(
-        PlayerFeatureSnapshotSQL.gameweek == gameweek
-      )
+    try:
+      async with self.get_session() as session:
+        stmt = select(PlayerFeatureSnapshotSQL).where(
+          PlayerFeatureSnapshotSQL.gameweek == gameweek
+        )
 
-      result = await session.execute(stmt)
+        result = await session.execute(stmt)
 
-      return list(result.scalars().all())
+        return list(result.scalars().all())
+    except Exception as e:
+      raise e
     
   async def get_by_gameweek_range(self, start_gw: int, end_gw: int) -> List[PlayerFeatureSnapshotSQL]:
     async with self.get_session() as session:

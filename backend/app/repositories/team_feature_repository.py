@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from sqlalchemy import desc, select
+from sqlalchemy import desc, func, select
 
 from backend.app.db.models.team_feature_snapshot_sql import TeamFeatureSnapshotSQL
 from backend.app.db.database_config import DatabaseConfig
@@ -23,6 +23,7 @@ class TeamFeatureRepository(BaseRepository):
       ]
 
       session.add_all(db_snapshots)
+      await session.commit()
       return len(db_snapshots)
     
   async def get_by_gameweek(self, gameweek: int) -> List[TeamFeatureSnapshotSQL]:
@@ -68,6 +69,14 @@ class TeamFeatureRepository(BaseRepository):
       result = await session.execute(stmt)
       
       return result.scalars().all()
+    
+  async def get_latest_gameweek(self) -> int | None:
+    async with self.get_session() as session:
+      result = await session.execute(
+        select(func.max(TeamFeatureSnapshotSQL.gameweek))
+      )
+
+      return result.scalar()
     
   async def get_training_data(self, 
     start_gw: int, 
