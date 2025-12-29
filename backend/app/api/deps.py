@@ -30,11 +30,9 @@ def get_settings() -> Settings:
   """Get application settings (cached singleton)"""
   return Settings()
 
-
-@lru_cache()
 def get_db_config(settings: Settings = Depends(get_settings)) -> DatabaseConfig:
   """Get database configuration (cached singleton)"""
-  return DatabaseConfig(settings.database_url)
+  return DatabaseConfig(settings.database_url_async)
 
 
 # ============================================================================
